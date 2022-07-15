@@ -5,9 +5,12 @@ import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import sauceDemo.simplePage.CartPage;
 import sauceDemo.simplePage.LoginPage;
+import sauceDemo.simplePage.MainPage;
 
 import java.time.Duration;
+import java.util.ArrayList;
 
 public class sauceDemoTests {
     private static final String login = "standard_user";
@@ -58,6 +61,32 @@ public class sauceDemoTests {
                 .login(login, password)
                 .goToCartPage()
                 .isCartPageOpened()
+        );
+    }
+
+    @Test
+    public void addElementToCart() {
+        Assertions.assertTrue(
+                new LoginPage(driver)
+                .login(login, password)
+                .selectFirstItemToCart()
+                .goToCartPage()
+                .getElementsInCart()
+                .isElementsEqual()
+        );
+        MainPage.setCartElements(new ArrayList<>());
+        CartPage.setCartElements(new ArrayList<>());
+    }
+
+    @Test
+    public void addAllElementsToCart() {
+        Assertions.assertTrue(
+                new LoginPage(driver)
+                .login(login, password)
+                .selectAllItemsToCart()
+                .goToCartPage()
+                .getElementsInCart()
+                .isElementsEqual()
         );
     }
 
